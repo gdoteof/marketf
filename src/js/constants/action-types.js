@@ -1,0 +1,8 @@
+export const ADD_LISTING = "ADD_LISTING";
+export const REMOVE_LISTING = "REMOVE_LISTING";
+export const SYNC_STATE = "SYNC_STATE";
+export const GET_NAME = "GET_NAME";
+export const GET_NAME_SUCCESS = "GET_NAME_SUCCESS";
+export const GET_LISTINGS_SUCCESS = "GET_LISTINGS_SUCCESS";
+export const ADD_LISTING_ASYNC = "ADD_LISTING_ASYNC";
+export const PUT_NAME_SUCCESS = "PUT_NAME_SUCCESS";
