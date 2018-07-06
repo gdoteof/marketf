@@ -3,11 +3,6 @@ import { routerReducer } from 'react-router-redux'
 
 import { ADD_LISTING, SYNC_STATE, REMOVE_LISTING, GET_NAME_SUCCESS, GET_LISTINGS_SUCCESS, PUT_NAME_SUCCESS } from "../constants/action-types"
 
-const initialState = {
-  listings: [],
-  name: "stranger"
-}
-
 
 const rootReducer = (state = initialState, action) => {
   switch(action.type){
@@ -19,10 +14,10 @@ const rootReducer = (state = initialState, action) => {
       })};
     case GET_NAME_SUCCESS:
       console.log("GETNAME SUCCESS CALLED", action);
-      return { ...state, name: action.payload.name };
+      return { ...state, ...{user: {name: action.payload.name, loggedIn: true} }};
     case PUT_NAME_SUCCESS:
       console.log("PUTNAME SUCCESS CALLED", action);
-      return state;
+      return { ...state, ...{user: {name: action.payload.userInfo.name }}};
     case GET_LISTINGS_SUCCESS:
       console.log("get LISTINGS success called", action);
       return { ...state, listings: action.payload.listings };

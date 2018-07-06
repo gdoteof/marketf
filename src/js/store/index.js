@@ -4,8 +4,17 @@ import rootReducer from "../reducers/index";
 
 import { getName, getListingsAsync } from "../actions/index";
 
+const initialState = {
+  listings: [],
+  user: {
+    name: "anonymous",
+    loggedIn: false
+  }
+}
+
 const store = createStore(
   rootReducer,
+  initialState,
   applyMiddleware(
     thunkMiddleware
   )

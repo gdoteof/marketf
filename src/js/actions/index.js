@@ -14,6 +14,13 @@ export const getListingsSuccess = (listings) => ({ type: GET_LISTINGS_SUCCESS, p
 
 export const addListingsSuccess = (listings) => ({ type: ADD_LISTINGS_SUCCESS, payload: userInfo })
 
+const initialState = {
+  listings: [],
+  user: {
+    name: "anonymous",
+    loggedIn: false
+  }
+}
 
 export function getName() {
   console.log("getName1");
