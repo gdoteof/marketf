@@ -4,7 +4,7 @@ import ReactDOM from "react-dom";
 const App = () => {
   return (
     <div>
-dakfa;lkj      <p>React here!</p>
+      <p>React here!</p>
     </div>
   );
 };
