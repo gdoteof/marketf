@@ -140,7 +140,7 @@ class App extends Component {
      <div>
         <Router>
           <div className={classes.appFrame}>
-            <AppBar position="absolute">
+            <AppBar position="permanent">
               <Toolbar>
                 <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
                   <MenuIcon />
@@ -179,14 +179,9 @@ class App extends Component {
                 )}
               </Toolbar>
             </AppBar>
-            <Drawer
-              variant="permanent"
-              classes={{
-                paper: classes.drawerPaper,
-              }}
-              anchor="left"
-            >
+            <Drawer variant="permanent" classes={{ paper: classes.drawerPaper }} anchor="left">
               <div className={classes.toolbar} />
+              <Divider/>
               <List>
                 <div>
                   <Link to="/app/list">
@@ -217,6 +212,7 @@ class App extends Component {
               </List>
             </Drawer>
             <main className={classes.content}>
+              <div className={classes.toolbar} />
               <Route path="/app/profile" component={Profile} />
               <Route path="/app/list" component={Listings} />
               <Route path="/app/form" component={Form} />
