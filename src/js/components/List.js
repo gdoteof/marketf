@@ -8,10 +8,10 @@ const mapStateToProps = state => {
 };
 
 const ConnectedList = ({ listings }) => (
-  <ul className="list-group list-group-flush">
+  <ul className="list-group list-group-flush" key="listparent">
     {listings.map(el => (
-      <li className="list-group-item" key={el.id}>
-        {el.name} - ${el.price} - {el.user} - {el.createdAt}
+      <li className="list-group-item" key={"LISTING_" + el.key}>
+        {el.name} - ${el.price} - {el.user} - {el.createdAt} - {el.key}
         <Remove id={el.id}/>
       </li>
     ))}

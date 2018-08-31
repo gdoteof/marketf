@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import uuidv1 from "uuid";
 import { addListing, addListingAsync } from "../actions/index";
 
+
 import store from "../store/index";
 
 const mapDispatchToProps = dispatch => {
@@ -19,12 +20,14 @@ class ConnectedForm extends Component {
     this.state = {
       name: "",
       price: 0,
-      distillery: ""
+      distillery: "",
+      pictures: {}
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleChangeNumeric = this.handleChangeNumeric.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.onImagePreviewChange = this.onImagePreviewChange.bind(this);
   }
 
   handleChange(event) {
@@ -33,6 +36,10 @@ class ConnectedForm extends Component {
 
   handleChangeNumeric(event) {
     this.setState({ [event.target.id]: Number(event.target.value) });
+  }
+
+  onImagePreviewChange(pictures){
+      this.setState({pictures})
   }
 
   handleSubmit(event) {

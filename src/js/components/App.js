@@ -4,10 +4,13 @@ import Listings from "./List";
 import Form from "./Form";
 import Nav from "./Nav";
 import Profile from "./Profile";
+import Login from "./Login";
+
+import classNames from 'classnames'
 
 import { Link } from 'react-router-dom'
 
-import { syncState, getName, getNameSuccess } from "../actions/index";
+import { syncState, getName, getNameSuccess, submitLogout } from "../actions/index";
 import store from "../store/index"
 
 import '../../scss/index.scss'
@@ -51,17 +54,10 @@ const styles = theme => ({
     appFrame: {
           height: 430,
           zIndex: 1,
-          position: 'relative',
-          display: 'flex',
-          width: '100%',
-        },
-    root: {
-          flexGrow: 1,
-          height: 430,
-          zIndex: 1,
           overflow: 'hidden',
           position: 'relative',
           display: 'flex',
+          width: '100%',
         },
     appBar: {
           width: `calc(100% - ${drawerWidth}px)`,
@@ -96,8 +92,13 @@ const styles = theme => ({
 
 
 
+const mapDispatchToProps = dispatch => {
+  return {
+    submitLogout: () => dispatch(submitLogout()),
+  };
+};
+
 const mapStateToProps = state => {
-  console.log("inside app mapping", state);
   return { user: state.user };
 };
 
@@ -112,20 +113,19 @@ class App extends Component {
       store.dispatch({type: 'SYNC_STATE', payload: previousState})
     } 
 		this.state= {
-			auth: true,
 			anchorEl: null,
 		};
-    this.handleChange = this.handleChange.bind(this);
     this.handleClose  = this.handleClose.bind(this);
     this.handleMenu   = this.handleMenu.bind(this);
   }
 
-  handleChange(event, checked) {
-    this.setState({ auth: checked });
-  };
 
   handleMenu( event ) {
     this.setState({ anchorEl: event.currentTarget });
+  };
+
+  handleLogout( event ) {
+    this.setState({ anchorEl: null });
   };
 
   handleClose () {
@@ -134,52 +134,58 @@ class App extends Component {
 
   render() {
    const { classes } = this.props;
-   const { auth, anchorEl } = this.state;
+   const { anchorEl, user} = this.state;
    const open = Boolean(anchorEl);
    return (
      <div>
         <Router>
           <div className={classes.appFrame}>
-            <AppBar position="permanent">
+            <AppBar position="absolute" className={classNames(classes.appBar, classes[`appBar-left`])}>
               <Toolbar>
-                <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
-                  <MenuIcon />
-                </IconButton>
-                <Typography variant="title" color="inherit" className={classes.flex}>
+                <Typography variant="title" color="inherit" className={classes.flex} noWrap>
                   Title
                 </Typography>
-                {auth && (
-                  <div>
-                    <IconButton
-                      aria-owns={open ? 'menu-appbar' : null}
-                      aria-haspopup="true"
-                      onClick={this.handleMenu}
-                      color="inherit"
-                    >
-                      <AccountCircle />
-                    </IconButton>
-                    <Menu
-                      id="menu-appbar"
-                      anchorEl={anchorEl}
-                      anchorOrigin={{
-                        vertical: 'top',
-                        horizontal: 'right',
-                      }}
-                      transformOrigin={{
-                        vertical: 'top',
-                        horizontal: 'right',
-                      }}
-                      open={open}
-                      onClose={this.handleClose}
-                    >
-                      <MenuItem onClick={this.handleClose}>Profile</MenuItem>
-                      <MenuItem onClick={this.handleClose}>My account</MenuItem>
-                    </Menu>
-                  </div>
-                )}
+                <IconButton
+                  aria-owns={open ? 'menu-appbar' : null}
+                  aria-haspopup="true"
+                  onClick={this.handleMenu}
+                  color="inherit"
+                >
+                  <AccountCircle />
+                </IconButton>
+                <Menu
+                  id="menu-appbar"
+                  anchorEl={anchorEl}
+                  anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  open={open}
+                  onClose={this.handleClose}
+                >
+                  <MenuItem onClick={this.handleClose}>Profile</MenuItem>
+                  <MenuItem onClick={this.handleClose}>My account</MenuItem>
+                  {this.props.user.loggedIn ? 
+                    (
+                      <a href="/auth/logout">
+                        <MenuItem onClick={this.handleClose}>Logout</MenuItem>
+                      </a>
+                    )
+                    :
+                    (
+                      <a href="/auth/login">
+                        <MenuItem onClick={this.handleClose}>Login</MenuItem>
+                      </a>
+                    )
+                  }
+                </Menu>
               </Toolbar>
             </AppBar>
-            <Drawer variant="permanent" classes={{ paper: classes.drawerPaper }} anchor="left">
+            <Drawer variant="permanent" classes={{ paper: classes.drawerPaper }}>
               <div className={classes.toolbar} />
               <Divider/>
               <List>
@@ -216,6 +222,7 @@ class App extends Component {
               <Route path="/app/profile" component={Profile} />
               <Route path="/app/list" component={Listings} />
               <Route path="/app/form" component={Form} />
+              <Route path="/app/user/login" component={Login} />
             </main>
           </div>
          </Router>
@@ -225,8 +232,6 @@ class App extends Component {
   }
 }
 
-const _App = connect(mapStateToProps)(App);
+const    _App = connect(mapStateToProps, mapDispatchToProps)(App);
 
-//export default _App;
 export default withStyles(styles)(_App);
-

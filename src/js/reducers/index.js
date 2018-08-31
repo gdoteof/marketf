@@ -19,7 +19,6 @@ const rootReducer = (state = initialState, action) => {
       console.log("PUTNAME SUCCESS CALLED", action);
       return { ...state, ...{user: {name: action.payload.userInfo.name }}};
     case GET_LISTINGS_SUCCESS:
-      console.log("get LISTINGS success called", action);
       return { ...state, listings: action.payload.listings };
     case SYNC_STATE:
       return action.payload;
