@@ -3,6 +3,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Listings from "./List";
 import Form from "./Form";
 import Nav from "./Nav";
+import ImagePreview from "./ImagePreview";
 import Profile from "./Profile";
 import Login from "./Login";
 
@@ -52,7 +53,7 @@ const drawerWidth = 240;
 import { connect } from "react-redux";
 const styles = theme => ({
     appFrame: {
-          height: 430,
+          height: '100%',
           zIndex: 1,
           overflow: 'hidden',
           position: 'relative',
@@ -85,6 +86,7 @@ const styles = theme => ({
       backgroundColor: theme.palette.background.default,
       padding: theme.spacing.unit * 3,
       minWidth: 0, // So the Typography noWrap works
+      height: '100%',
     },
 });
 
@@ -197,7 +199,7 @@ class App extends Component {
                       </ListItemIcon>
                       <ListItemText primary="Listings" />
                     </ListItem>
-                    </Link>
+                  </Link>
                   <Link to="/app/form">
                     <ListItem button>
                       <ListItemIcon>
@@ -214,6 +216,14 @@ class App extends Component {
                       <ListItemText primary="Profile" secondary="hmm" />
                     </ListItem>
                   </Link>
+                  <Link to="/app/widget">
+                    <ListItem button>
+                      <ListItemIcon>
+                        <InboxIcon />
+                      </ListItemIcon>
+                      <ListItemText primary="Widget" />
+                    </ListItem>
+                    </Link>
                 </div>
               </List>
             </Drawer>
@@ -223,6 +233,7 @@ class App extends Component {
               <Route path="/app/list" component={Listings} />
               <Route path="/app/form" component={Form} />
               <Route path="/app/user/login" component={Login} />
+              <Route path="/app/widget" component={ImagePreview} />
             </main>
           </div>
          </Router>

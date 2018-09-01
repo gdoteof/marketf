@@ -3,8 +3,22 @@ import { connect } from "react-redux";
 import uuidv1 from "uuid";
 import { addListing, addListingAsync } from "../actions/index";
 
+import TextField from '@material-ui/core/TextField';
+import Grid from '@material-ui/core/Grid';
+
+import Button from '@material-ui/core/Button';
+import AddIcon from '@material-ui/icons/Add';
+import Icon from '@material-ui/core/Icon';
 
 import store from "../store/index";
+
+import { withStyles } from '@material-ui/core/styles';
+
+const styles = {
+    button: {
+          marginTop: "10px"
+        }
+};
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -21,6 +35,7 @@ class ConnectedForm extends Component {
       name: "",
       price: 0,
       distillery: "",
+      email: "",
       pictures: {}
     };
 
@@ -54,43 +69,40 @@ class ConnectedForm extends Component {
   }
 
   render() {
-    const { name, price, distillery } = this.state;
+    const { name, price, distillery, email } = this.state;
+    const classes = this.props;
     return (
-      <form onSubmit={this.handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="name">Name?</label>
-          <input
-            type="text"
-            className="form-control"
-            id="name"
-            value={name}
-            onChange={this.handleChange}
-          />
-          <label htmlFor="price">Price</label>
-          <input
-            type="number"
-            className="form-control"
-            id="price"
-            value={price}
-            onChange={this.handleChangeNumeric}
-          />
-          <label htmlFor="distillery">Distillery</label>
-          <input
-            type="text"
-            className="form-control"
-            id="distillery"
-            value={distillery}
-            onChange={this.handleChange}
-          />
-        </div>
-        <button type="submit" className="btn btn-success btn-lg">
-          SAVE
-        </button>
-      </form>
+      <div>
+        <Grid container>
+          <Grid item xs={6}>
+            <TextField id="name"
+              fullWidth
+              label="name"
+              value={name}
+              onChange={this.handleChange}
+             />
+            <TextField id="price"
+              fullWidth
+              label="price"
+              value={price}
+              onChange={this.handleChange}
+             />
+            <TextField id="distillery"
+              fullWidth
+              label="distillery"
+              value={distillery}
+              onChange={this.handleChange}
+             />
+          </Grid>
+        </Grid>
+        <Button size="medium" variant="fab" color="primary" aria-label="Add" className={classes.button}>
+          <AddIcon />
+        </Button>
+      </div>
     );
   }
 }
 
-const Form = connect(null, mapDispatchToProps)(ConnectedForm);
+const Form = withStyles(styles)(connect(null, mapDispatchToProps)(ConnectedForm));
 
 export default Form;
