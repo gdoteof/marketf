@@ -9,12 +9,21 @@ import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import Icon from '@material-ui/core/Icon';
 
+import UploadIcon from '@material-ui/icons/AddAPhoto';
 
-const styles = {
+const styles = theme => ({
   input: {
     display: 'none',
   },
-}
+  gridlist: {
+  },
+  button: {
+    margin: theme.spacing.unit,
+  },
+  uploadIcon: {
+    marginRight: theme.spacing.unit,
+  }
+})
 
 
 class ImagePreview extends Component {
@@ -67,7 +76,6 @@ class ImagePreview extends Component {
     const { classes } = this.props;
     return (
       <div>
-        <h4>image preview</h4>
          <input
             accept="image/*"
             className={classes.input}
@@ -77,12 +85,13 @@ class ImagePreview extends Component {
             onChange={this.handleFilePick}
           />
         <label htmlFor="fab-button-file">
-          <Button component="span" mini variant="fab">
-            Select
+          <Button component="span" size="small" aria-label="Select" variant="extendedFab" className={classes.button}>
+            <UploadIcon className={classes.uploadIcon}/>
+            Select Images
           </Button>
         </label>
         <div className={classes.root}>
-          <GridList cellHeight={160} className={classes.gridList} cols={3}>
+          <GridList cellHeight={280} className={classes.gridList} cols={3}>
             {images.map((image, index) => (
                         <GridListTile key={image.img} cols={image.cols || 1} onClick={(index) => this.handleRemove(index)}>
                           <img src={image.img} alt={image.name} />

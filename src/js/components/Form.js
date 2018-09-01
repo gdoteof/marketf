@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 import uuidv1 from "uuid";
 import { addListing, addListingAsync } from "../actions/index";
 
+import ImagePreview from "./ImagePreview";
+
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 
@@ -33,7 +35,7 @@ class ConnectedForm extends Component {
 
     this.state = {
       name: "",
-      price: 0,
+      price: '',
       distillery: "",
       email: "",
       pictures: {}
@@ -95,9 +97,7 @@ class ConnectedForm extends Component {
              />
           </Grid>
         </Grid>
-        <Button size="medium" variant="fab" color="primary" aria-label="Add" className={classes.button}>
-          <AddIcon />
-        </Button>
+      <ImagePreview/>
       </div>
     );
   }
