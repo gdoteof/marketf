@@ -37,7 +37,7 @@ class ImagePreview extends Component {
     }
 
     this.handleFilePick = this.handleFilePick.bind(this);
-    this.handleRemove = this.handleRemove.bind(this);
+    this.handleRemove   = this.handleRemove.bind(this);
     
   }
 
@@ -53,26 +53,51 @@ class ImagePreview extends Component {
     const initN = images.length;
 
     for (var i = 0; i < files.length; ++i){
-      images[i + initN] = {name:files[i].name, img: URL.createObjectURL(files[i]), size:files[i].size};
+      images[i + initN] = files[i];
     }
 
-    //Filter (by name and size)
+
+    //Filter (by unique on name and size)
     const filtered = images.filter((image, index, self) =>
         index === self.findIndex((t) => ( t.name === image.name && t.size === image.size)))
 
-    this.setState({ images : filtered });
+    console.log("There are ", filtered.length, "images in the array after filtering");
 
+    //Create base64 representations where needed
+    for (var i = 0; i < filtered.length; ++i){
+      if( ! filtered[i].b64 ){
+        var reader = new FileReader();
+        reader.readAsDataURL(filtered[i]);
+        const outer = this;
+        reader.onload = (function(r,index) { 
+          return function () {
+          outer.handleb64(r.result, index);
+        }})(reader,i);
+        reader.onerror = function (error) {
+          console.log('Error: ', error);
+        };
+      }
+    }
+
+    this.setState({ images : filtered });
+  }
+
+  handleb64(b64, index){
+    const {images} = this.state;
+    images[index].b64 = b64;
+    console.log("sending", images);
+    this.setState({ images });
   }
 
   handleRemove(imageIndex){
     const {images} = this.state;
+    console.log("there are ", images.length, "images, removing index", imageIndex);
     images.splice(imageIndex,1);
     this.setState({images});
   }
 
   render() {
     const { images } = this.state;
-    console.log("LOGGING RENDER", images);
     const { classes } = this.props;
     return (
       <div>
@@ -93,8 +118,10 @@ class ImagePreview extends Component {
         <div className={classes.root}>
           <GridList cellHeight={280} className={classes.gridList} cols={3}>
             {images.map((image, index) => (
-                        <GridListTile key={image.img} cols={image.cols || 1} onClick={(index) => this.handleRemove(index)}>
-                          <img src={image.img} alt={image.name} />
+                        <GridListTile key={image.name} cols={image.cols || 1} 
+                          onClick={() => this.handleRemove(index)}
+                        >
+                          <img src={URL.createObjectURL(image)} alt={image.name} />
                         </GridListTile>
                       ))}
           </GridList>
