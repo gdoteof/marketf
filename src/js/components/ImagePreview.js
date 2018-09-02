@@ -85,15 +85,19 @@ class ImagePreview extends Component {
   handleb64(b64, index){
     const {images} = this.state;
     images[index].b64 = b64;
-    console.log("sending", images);
     this.setState({ images });
+    this.percolate(images)
   }
 
   handleRemove(imageIndex){
     const {images} = this.state;
-    console.log("there are ", images.length, "images, removing index", imageIndex);
     images.splice(imageIndex,1);
     this.setState({images});
+    this.percolate(images)
+  }
+
+  percolate(images){
+    this.props.callback(images)
   }
 
   render() {
@@ -119,8 +123,12 @@ class ImagePreview extends Component {
           <GridList cellHeight={280} className={classes.gridList} cols={3}>
             {images.map((image, index) => (
                         <GridListTile key={image.name} cols={image.cols || 1} 
-                          onClick={() => this.handleRemove(index)}
                         >
+                          <button type="button" className="close" aria-label="Close" 
+                            onClick={() => this.handleRemove(index)}
+                          >
+                            <span aria-hidden="true">&times;</span>
+                          </button>
                           <img src={URL.createObjectURL(image)} alt={image.name} />
                         </GridListTile>
                       ))}

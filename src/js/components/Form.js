@@ -45,6 +45,7 @@ class ConnectedForm extends Component {
     this.handleChangeNumeric = this.handleChangeNumeric.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onImagePreviewChange = this.onImagePreviewChange.bind(this);
+    this.imagesCallback = this.imagesCallback.bind(this);
   }
 
   handleChange(event) {
@@ -61,13 +62,20 @@ class ConnectedForm extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const { name, price, distillery } = this.state;
+    const { name, priceString, distillery, images } = this.state;
     const id = uuidv1();
+
+    const price = parseFloat(priceString)
     this.props.addListing({ name, id, price, distillery });
-    this.props.addListingAsync({name, price})
+    this.props.addListingAsync({name, price, distillery, images})
     this.setState({ name: "" , price: 0, distillery: ""});
     localStorage.setItem("market4store", JSON.stringify(store.getState()));
     console.log("Syncing:", store.getState());
+  }
+
+  imagesCallback(images){
+    this.setState( { images: images } );
+    console.log("got ", images, "in the parent!!!");
   }
 
   render() {
@@ -75,6 +83,10 @@ class ConnectedForm extends Component {
     const classes = this.props;
     return (
       <div>
+        <Button component="span" size="small" aria-label="Select" variant="extendedFab" className={classes.button} onClick={this.handleSubmit}>
+          <AddIcon/>
+          Create New Listing
+        </Button>
         <Grid container>
           <Grid item xs={6}>
             <TextField id="name"
@@ -97,7 +109,7 @@ class ConnectedForm extends Component {
              />
           </Grid>
         </Grid>
-      <ImagePreview/>
+      <ImagePreview callback={this.imagesCallback}/>
       </div>
     );
   }
