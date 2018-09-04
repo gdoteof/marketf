@@ -14,6 +14,7 @@ import Icon from '@material-ui/core/Icon';
 
 import store from "../store/index";
 
+
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = {
@@ -62,12 +63,12 @@ class ConnectedForm extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const { name, priceString, distillery, images } = this.state;
+    const { name, price, distillery, images } = this.state;
     const id = uuidv1();
 
-    const price = parseFloat(priceString)
-    this.props.addListing({ name, id, price, distillery });
-    this.props.addListingAsync({name, price, distillery, images})
+    const parsedPrice = parseFloat(price)
+    this.props.addListing({ name, id, price:parsedPrice, distillery });
+    this.props.addListingAsync({name, price: parsedPrice, distillery, images: images.map(i=>i.b64)})
     this.setState({ name: "" , price: 0, distillery: ""});
     localStorage.setItem("market4store", JSON.stringify(store.getState()));
     console.log("Syncing:", store.getState());

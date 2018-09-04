@@ -54,6 +54,7 @@ class ImagePreview extends Component {
 
     for (var i = 0; i < files.length; ++i){
       images[i + initN] = files[i];
+      images[i + initN].img = URL.createObjectURL(files[i]);
     }
 
 
@@ -66,6 +67,7 @@ class ImagePreview extends Component {
     //Create base64 representations where needed
     for (var i = 0; i < filtered.length; ++i){
       if( ! filtered[i].b64 ){
+        console.log("NOT SKIPPING");
         var reader = new FileReader();
         reader.readAsDataURL(filtered[i]);
         const outer = this;
@@ -77,6 +79,7 @@ class ImagePreview extends Component {
           console.log('Error: ', error);
         };
       }
+      console.log("DEFINITELY SKIPPING");
     }
 
     this.setState({ images : filtered });
@@ -129,7 +132,7 @@ class ImagePreview extends Component {
                           >
                             <span aria-hidden="true">&times;</span>
                           </button>
-                          <img src={URL.createObjectURL(image)} alt={image.name} />
+                          <img src={image.img} alt={image.name} />
                         </GridListTile>
                       ))}
           </GridList>

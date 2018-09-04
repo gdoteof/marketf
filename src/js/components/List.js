@@ -12,6 +12,9 @@ const ConnectedList = ({ listings }) => (
     {listings.map(el => (
       <li className="list-group-item" key={"LISTING_" + el.key}>
         {el.name} - ${el.price} - {el.user} - {el.createdAt} - {el.key}
+        {el.photos && el.photos.map(p => (
+          <img src={"/static/img/" + p} />
+        ))}
         <Remove id={el.id}/>
       </li>
     ))}
