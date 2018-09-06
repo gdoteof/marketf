@@ -10,7 +10,7 @@ const rootReducer = (state = initialState, action) => {
       return { ...state, listings: [...state.listings, action.payload]};
     case REMOVE_LISTING:
       return { ...state, listings: state.listings.filter((listing)=>{ 
-        return listing.id != action.payload.id;
+        return listing.key != action.payload.key;
       })};
     case GET_NAME_SUCCESS:
       console.log("GETNAME SUCCESS CALLED", action);

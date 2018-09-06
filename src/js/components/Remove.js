@@ -25,8 +25,10 @@ class ConnectedRemove extends Component {
   }
 
   handleClick(event) {
-    const id = this.props.id;
-    this.props.removeListing({ id });
+    console.log("a click happened..");
+    const key = this.props.id;
+    this.props.removeListing({ key });
+    console.log("removing", key);
     localStorage.setItem("market4store", JSON.stringify(store.getState()));
   }
 

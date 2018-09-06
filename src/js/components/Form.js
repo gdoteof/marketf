@@ -6,7 +6,18 @@ import { addListing, addListingAsync } from "../actions/index";
 import ImagePreview from "./ImagePreview";
 
 import TextField from '@material-ui/core/TextField';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormGroup from '@material-ui/core/FormGroup';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import Checkbox from '@material-ui/core/Checkbox';
 import Grid from '@material-ui/core/Grid';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import Typography from '@material-ui/core/Typography';
+import FormHelperText from '@material-ui/core/FormHelperText';
+
 
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
@@ -17,11 +28,19 @@ import store from "../store/index";
 
 import { withStyles } from '@material-ui/core/styles';
 
-const styles = {
+const styles = theme => ({
     button: {
-          marginTop: "10px"
-        }
-};
+        marginTop: "10px"
+        },
+    root: {
+        display: 'flex',
+        flexWrap: 'wrap',
+      },
+    formControl: {
+          margin: theme.spacing.unit,
+          minWidth: "360px",
+        },
+});
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -39,6 +58,7 @@ class ConnectedForm extends Component {
       price: '',
       distillery: "",
       email: "",
+      shipping: "Free Shipping",
       pictures: {}
     };
 
@@ -80,16 +100,17 @@ class ConnectedForm extends Component {
   }
 
   render() {
-    const { name, price, distillery, email } = this.state;
+    const { name, price, distillery, email, multiBottle } = this.state;
     const classes = this.props;
     return (
-      <div>
-        <Button component="span" size="small" aria-label="Select" variant="extendedFab" className={classes.button} onClick={this.handleSubmit}>
+      <form className={classes.root}>
+        <Button component="span" size="small" aria-label="Select" variant="contained" className={classes.button} onClick={this.handleSubmit}>
           <AddIcon/>
-          Create New Listing
+          Save this listing
         </Button>
+        
         <Grid container>
-          <Grid item xs={6}>
+          <Grid item xs={12}>
             <TextField id="name"
               fullWidth
               label="name"
@@ -100,6 +121,9 @@ class ConnectedForm extends Component {
               fullWidth
               label="price"
               value={price}
+              InputProps={{
+                    startAdornment: <InputAdornment position="start">$</InputAdornment>,
+              }}
               onChange={this.handleChange}
              />
             <TextField id="distillery"
@@ -108,14 +132,59 @@ class ConnectedForm extends Component {
               value={distillery}
               onChange={this.handleChange}
              />
+            <FormControl className={classes.formControl}>
+              <InputLabel htmlFor="shipping">Shipping</InputLabel>
+              <Select
+                value={this.state.shipping}
+                onChange={this.handleChange}
+                inputProps={{
+                                name: 'shipping',
+                                  id: 'shipping',
+                                }}
+              >
+                <MenuItem value={'Shipping Included'}>Shipping Included</MenuItem>
+                <MenuItem value={'Buyer Pays'}>Buyer Pays Shipping</MenuItem>
+                <MenuItem value={'Flat Rate'}>Flat Rate</MenuItem>
+              </Select>
+              <FormHelperText>Some important helper text</FormHelperText>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={this.state.multiBottle}
+                    onChange={this.handleChange}
+                    value={this.state.multiBottle}
+                  />
+                }
+                label="Multi-Bottle listing?"
+              />
+
+          </FormControl>
           </Grid>
         </Grid>
       <ImagePreview callback={this.imagesCallback}/>
-      </div>
+      </form>
     );
   }
 }
 
 const Form = withStyles(styles)(connect(null, mapDispatchToProps)(ConnectedForm));
+
+
+
+function _FormTitle ({ classes }) {return (
+                <Typography variant="title" color="inherit" className={classes.flex} noWrap>
+                  Add a new listing
+                </Typography>
+)};
+
+const titleStyles = {
+    flex: {
+          flex: 1
+        }
+};
+
+const FormTitle = withStyles(titleStyles)(_FormTitle);
+
+export { FormTitle };
 
 export default Form;

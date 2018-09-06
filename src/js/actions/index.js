@@ -81,6 +81,24 @@ export function updateName(userInfo) {
   }
 } 
 
+export function removeListingsAsync(id) {
+  return function(dispatch){
+    return fetch('/listings/' + id, {
+    credentials: 'same-origin',
+    method: 'DELETE', 
+    headers: new Headers({
+          'Content-Type': 'application/json'
+        })
+    }).then(
+      res => res.json()
+    ).then(json => {
+        console.log(json);
+       dispatch(getListingsSuccess(json))
+      }
+    )
+  }
+}
+
 export function getListingsAsync(listing) {
   return function(dispatch){
     return fetch('/listings', {

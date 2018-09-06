@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { withStyles } from '@material-ui/core/styles';
 import Listings from "./List";
-import Form from "./Form";
+import Form,  {FormTitle} from "./Form";
 import Nav from "./Nav";
 import ImagePreview from "./ImagePreview";
 import Profile from "./Profile";
@@ -144,9 +144,7 @@ class App extends Component {
           <div className={classes.appFrame}>
             <AppBar position="absolute" className={classNames(classes.appBar, classes[`appBar-left`])}>
               <Toolbar>
-                <Typography variant="title" color="inherit" className={classes.flex} noWrap>
-                  Title
-                </Typography>
+                <Route path="/app/form" component={FormTitle} />
                 <IconButton
                   aria-owns={open ? 'menu-appbar' : null}
                   aria-haspopup="true"
