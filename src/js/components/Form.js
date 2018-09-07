@@ -70,7 +70,9 @@ class ConnectedForm extends Component {
   }
 
   handleChange(event) {
-    this.setState({ [event.target.id]: event.target.value });
+    console.log("received change", event.target.id, ":", event.target.value);
+    console.log(event.target);
+    this.setState({ [event.target.name]: event.target.value });
   }
 
   handleChangeNumeric(event) {
@@ -100,7 +102,7 @@ class ConnectedForm extends Component {
   }
 
   render() {
-    const { name, price, distillery, email, multiBottle } = this.state;
+    const { name, price, distillery, email, multiBottle, shipping } = this.state;
     const classes = this.props;
     return (
       <form className={classes.root}>
@@ -110,14 +112,14 @@ class ConnectedForm extends Component {
         </Button>
         
         <Grid container>
-          <Grid item xs={12}>
-            <TextField id="name"
+          <Grid item sm={8} xs={12}>
+            <TextField id="name" name="name"
               fullWidth
               label="name"
               value={name}
               onChange={this.handleChange}
              />
-            <TextField id="price"
+            <TextField id="price" name="price"
               fullWidth
               label="price"
               value={price}
@@ -126,7 +128,7 @@ class ConnectedForm extends Component {
               }}
               onChange={this.handleChange}
              />
-            <TextField id="distillery"
+            <TextField id="distillery" name="distillery"
               fullWidth
               label="distillery"
               value={distillery}
@@ -134,13 +136,10 @@ class ConnectedForm extends Component {
              />
             <FormControl className={classes.formControl}>
               <InputLabel htmlFor="shipping">Shipping</InputLabel>
-              <Select
-                value={this.state.shipping}
+              <Select id="shipping"
+                value={shipping}
                 onChange={this.handleChange}
-                inputProps={{
-                                name: 'shipping',
-                                  id: 'shipping',
-                                }}
+                name="shipping"
               >
                 <MenuItem value={'Shipping Included'}>Shipping Included</MenuItem>
                 <MenuItem value={'Buyer Pays'}>Buyer Pays Shipping</MenuItem>

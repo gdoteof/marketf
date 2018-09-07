@@ -228,6 +228,7 @@ class App extends Component {
             <main className={classes.content}>
               <div className={classes.toolbar} />
               <Route path="/app/profile" component={Profile} />
+              <Route path="/app/listing/:id" component={ListingDetail} />
               <Route path="/app/list" component={Listings} />
               <Route path="/app/form" component={Form} />
               <Route path="/app/user/login" component={Login} />
