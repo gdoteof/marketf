@@ -19,10 +19,7 @@ const rootReducer = (state = initialState, action) => {
     case GET_LISTINGS_SUCCESS:
       return { ...state, listings: action.payload.listings };
     case GET_LISTING_SUCCESS:
-      console.log("GLS", state, action);
-      const { listingDetails, listings, user } = state;
-      listingDetails[action.payload.listingId] = action.payload.listing
-      return { ...state, listingDetails: listingDetails };
+      return { ...state, listingDetails: {...state.listingDetails, [action.payload.listingId] : action.payload.listing}};
     case SYNC_STATE:
       return action.payload;
     default:

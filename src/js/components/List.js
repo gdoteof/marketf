@@ -1,5 +1,6 @@
 import React from "react";
 import Remove from "./Remove";
+import { Link } from 'react-router-dom'
 
 import { withStyles } from '@material-ui/core/styles';
 
@@ -33,7 +34,7 @@ const ConnectedList = ({ listings, classes }) => (
   <ul className="list-group list-group-flush" key="listparent">
     {listings.map(el => (
       <li className="list-group-item" key={"LISTING_" + el.key}>
-        {el.name} - ${el.price} - {el.user} - {el.createdAt} - key:{el.key} - id:{el.id}
+        {el.name} - ${el.price} - {el.user} - {el.createdAt} - key:{el.key} - id:{el.id} - <Link to={"/app/listing/" + el.key}>Go</Link>
         <GridList cellHeight={280} className={classes.gridList} cols={3}>
           {el.photos && el.photos.map((image, index) => (
                       <GridListTile key={image.name} cols={image.cols || 1} 
