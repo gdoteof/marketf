@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
 import { routerReducer } from 'react-router-redux'
 
-import { ADD_LISTING, SYNC_STATE, REMOVE_LISTING, GET_NAME_SUCCESS, GET_LISTINGS_SUCCESS, PUT_NAME_SUCCESS } from "../constants/action-types"
+import { ADD_LISTING, SYNC_STATE, REMOVE_LISTING, GET_NAME_SUCCESS, GET_LISTINGS_SUCCESS, PUT_NAME_SUCCESS, GET_LISTING_SUCCESS } from "../constants/action-types"
 
 
 const rootReducer = (state = initialState, action) => {
@@ -13,13 +13,16 @@ const rootReducer = (state = initialState, action) => {
         return listing.key != action.payload.key;
       })};
     case GET_NAME_SUCCESS:
-      console.log("GETNAME SUCCESS CALLED", action);
       return { ...state, ...{user: {name: action.payload.name, loggedIn: true} }};
     case PUT_NAME_SUCCESS:
-      console.log("PUTNAME SUCCESS CALLED", action);
       return { ...state, ...{user: {name: action.payload.userInfo.name }}};
     case GET_LISTINGS_SUCCESS:
       return { ...state, listings: action.payload.listings };
+    case GET_LISTING_SUCCESS:
+      console.log("GLS", state, action);
+      const { listingDetails, listings, user } = state;
+      listingDetails[action.payload.listingId] = action.payload.listing
+      return { ...state, listingDetails: listingDetails };
     case SYNC_STATE:
       return action.payload;
     default:

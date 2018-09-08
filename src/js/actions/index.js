@@ -1,4 +1,4 @@
-import { ADD_LISTING, SYNC_STATE, REMOVE_LISTING, GET_NAME, GET_NAME_SUCCESS, GET_LISTINGS_SUCCESS, PUT_NAME_SUCCESS } from '../constants/action-types';
+import { ADD_LISTING, SYNC_STATE, REMOVE_LISTING, GET_NAME, GET_NAME_SUCCESS, GET_LISTINGS_SUCCESS, PUT_NAME_SUCCESS , GET_LISTING_SUCCESS} from '../constants/action-types';
 
 export const addListing    = listing => ({ type: ADD_LISTING,    payload: listing });
 export const removeListing = key     => ({ type: REMOVE_LISTING, payload: key     });
@@ -10,6 +10,8 @@ export const putNameSuccess = (name) => ({ type: PUT_NAME_SUCCESS, payload: name
 
 export const getListingsSuccess = (listings) => ({ type: GET_LISTINGS_SUCCESS, payload: listings })
 export const addListingsSuccess = (listings) => ({ type: ADD_LISTINGS_SUCCESS, payload: userInfo })
+
+export const getListingSuccess  = (listing)  => ({ type: GET_LISTING_SUCCESS, payload: listing })
 
 const initialState = {
   listings: [],
@@ -30,6 +32,21 @@ export function getName() {
        error => console.log('ERROR', error),
      ).then(json =>
        dispatch(getNameSuccess(json))
+     )
+  }
+} 
+
+export function loadListingAsync(listingId) {
+  console.log("loadListingAsync");
+  return function(dispatch){
+    return fetch('http://localhost:3000/listings/' + listingId, {
+      credentials: 'same-origin'
+    })
+     .then(
+       response => response.json(),
+       error => console.log('ERROR', error),
+     ).then(json =>
+       dispatch(getListingSuccess({...json, listingId: listingId}))
      )
   }
 } 

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { withStyles } from '@material-ui/core/styles';
 import Listings from "./List";
+import ListingDetail from "./ListingDetail";
 import Form,  {FormTitle} from "./Form";
 import Nav from "./Nav";
 import ImagePreview from "./ImagePreview";

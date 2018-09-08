@@ -9,6 +9,8 @@ const initialState = {
   user: {
     name: "anonymous",
     loggedIn: false
+  },
+  listingDetails: {
   }
 }
 
