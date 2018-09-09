@@ -7,13 +7,16 @@ class Footer extends React.Component{
 		this.getActiveStyle = this.getActiveStyle.bind(this);
 		this.getFooterStyle = this.getFooterStyle.bind(this);
 		this.changeCurrent = this.changeCurrent.bind(this);		
+    console.log("loading the footer", props);
 	}
 	getActiveStyle(id){
 		let s = {
 			opacity: (id === this.props.currentId)?1:.5
 		};
 		if (this.props.thumb){
-			s.backgroundImage = `url( ${this.props.images[id]})`;
+      let bgCls = `url('/static/img/${this.props.images[id]}')`;
+      console.log(bgCls, "<bg");
+			s.backgroundImage = bgCls;
 		}
 		return s;
 	}

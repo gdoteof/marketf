@@ -40,6 +40,11 @@ const styles = theme => ({
           margin: theme.spacing.unit,
           minWidth: "360px",
         },
+    textField: {
+          marginLeft: theme.spacing.unit,
+          marginRight: theme.spacing.unit,
+          width: 200,
+        },
 });
 
 const mapDispatchToProps = dispatch => {
@@ -59,10 +64,13 @@ class ConnectedForm extends Component {
       distillery: "",
       email: "",
       shipping: "Free Shipping",
-      pictures: {}
+      pictures: {},
+      knownBirth: "",
+      birthday: ''
     };
 
     this.handleChange = this.handleChange.bind(this);
+    this.handleCheckChange = this.handleCheckChange.bind(this);
     this.handleChangeNumeric = this.handleChangeNumeric.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onImagePreviewChange = this.onImagePreviewChange.bind(this);
@@ -73,6 +81,12 @@ class ConnectedForm extends Component {
     console.log("received change", event.target.id, ":", event.target.value);
     console.log(event.target);
     this.setState({ [event.target.name]: event.target.value });
+  }
+
+  handleCheckChange(event) {
+    console.log("received change", event.target.id, ":", event.target.checked);
+    console.log(event.target);
+    this.setState({ [event.target.name]: event.target.checked });
   }
 
   handleChangeNumeric(event) {
@@ -155,6 +169,39 @@ class ConnectedForm extends Component {
                   />
                 }
                 label="Multi-Bottle listing?"
+              />
+                <FormControlLabel
+                        control={
+                          <Checkbox
+                            name="knownBirth"
+                            checked={this.state.knownBirth}
+                            onChange={this.handleCheckChange}
+                          />
+                        }
+                        label="Known Birthdate?"
+                      />
+              { this.state.knownBirth && 
+                <TextField
+                  id="birthday"
+                  name="birthday"
+                  label="Birthday"
+                  onChange={this.handleChange}
+                  type="date"
+                  value={this.state.birthday}
+                  className={classes.textField}
+                  InputLabelProps={{
+                              shrink: true,
+                              }}
+                />
+              }
+              <TextField
+                id="age"
+                label="Age (on label)"
+                type="number"
+                className={classes.textField}
+                InputLabelProps={{
+                            shrink: true,
+                            }}
               />
 
           </FormControl>

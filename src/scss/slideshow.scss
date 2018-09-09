@@ -51,7 +51,7 @@
 .carousel .carousel-main {
 	width: 100%;
 	height: calc(100% - 100px);
-	background-color: #000;
+//	background-color: #000;
 	overflow: hidden
 }
 
@@ -97,9 +97,9 @@
 	bottom: -9999px;
 	left: -9999px;
 	margin: auto;
-	min-width: 100%;
-	min-height: 100%;
-	z-index: 0
+	max-height: 100%;
+	z-index: 0;
+  object-fit:cover;
 }
 
 .carousel .carousel-footer {

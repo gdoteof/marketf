@@ -1,18 +1,24 @@
 import React from 'react';
+import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import {Footer} from './SlideshowFooter';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
-const Fade = ({ children, ...props }) => (
-	<CSSTransition
-		{...props}
-		timeout={{enter:500, exit:0}}
-		classNames="carouselContent"
-	>
-		{children}
-	</CSSTransition>
-);
+import Paper from '@material-ui/core/Paper';
 
+import '../../scss/slideshow.scss'
+
+const styles = theme => ({})
+
+const Fade = ({ children, ...props }) => (
+    <CSSTransition
+      {...props}
+      timeout={{enter:500, exit:0}}
+      classNames="carouselContent"
+    >
+      {children}
+    </CSSTransition>
+);
 
 class Carousel extends React.Component{
 	constructor(props) {
@@ -63,22 +69,24 @@ class Carousel extends React.Component{
 	render(){
 		let images = this.props.images || [];
 		let cImage = images[this.state.currentId];
+    let classes = this.props.classes;
 		return (
-			<div className="carousel">
-				<div className="carousel-main" alt="">
-					<TransitionGroup className=''>
-						<Fade key={this.state.currentId}>
-							<img src={cImage} key={cImage}  />
-						</Fade>	
-					</TransitionGroup>
-				</div>
-				<div className="prev" onClick={this.subCurrent}/>
-				<div className="next" onClick={this.addCurrent}/>
-				<Footer images={images} currentId={this.state.currentId} setCurrent={this.setCurrent} thumb={this.props.thumb}/>
-			</div>
+        <div className="carousel">
+          <div className="carousel-main" alt="">
+            <TransitionGroup className=''>
+              <Fade key={this.state.currentId}>
+                <img src={'/static/img/' + cImage} key={cImage}  />
+              </Fade>
+            </TransitionGroup>
+          </div>
+          <div className="prev" onClick={this.subCurrent}/>
+          <div className="next" onClick={this.addCurrent}/>
+          <Footer images={images} currentId={this.state.currentId} setCurrent={this.setCurrent} thumb={this.props.thumb}/>
+        </div>
 		);
 	}
 }
+
 Carousel.propTypes = {
   images: PropTypes.array.isRequired,
   thumb: PropTypes.bool,
@@ -93,5 +101,4 @@ Carousel.defaultProps = {
 };
 
 
-
-export default Carousel;
+export default withStyles(styles)(Carousel);

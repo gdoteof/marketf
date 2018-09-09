@@ -48,7 +48,7 @@ module.exports = {
           }, {
             loader: 'sass-loader', // compiles Sass to CSS
             options: {
-              includePaths: ['node_modules/react-ions'],
+              includePaths: ['node_modules/react-ions','src/scss'],
               importLoaders: 1
             }
           }

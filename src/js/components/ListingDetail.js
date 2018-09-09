@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 import Remove from "./Remove";
+import Slideshow from "./Slideshow";
 
 import { withStyles } from '@material-ui/core/styles';
 
 import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
@@ -26,6 +28,13 @@ const styles = theme => ({
     mainImage: {
           maxHeight: '300px',
         },
+    mySlideshow: {
+      width: '600px',
+      height: '400px',
+      margin: '0 auto',
+      maxHeight: '100vh',
+      maxWidth: '100%',
+    },
     root: {
           flexGrow: 1,
         },
@@ -56,19 +65,18 @@ class ListingDetail extends Component {
     if( listingDetails[match.params.id] ) {
       const listing = listingDetails[match.params.id];
       component = (
-
-        <div className={classes.root}>
-            <Grid container spacing={24}>
-              <Grid item xs={5}>
-                <Paper className={classes.paper}>
-                  <img src={'/static/img/' + listing.photos[0]} className={classes.mainImage}/>
-                </Paper>
-              </Grid>
-              <Grid item xs={7}>
-                  <h2>{listing.name}</h2>
-              </Grid>
+          <Grid container spacing={24}>
+            <Grid item sm={5} xs={12}>
+              <div className={classes.mySlideshow}>
+                    <Slideshow autoplay={10000000} thumb={true} images={listing.photos} />
+              </div>
             </Grid>
-        </div>
+            <Grid item sm={7} xs={12}>
+                <Typography variant="display2">
+                  {listing.name}
+                </Typography>
+            </Grid>
+          </Grid>
       )
 
     } else {
