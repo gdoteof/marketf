@@ -98,6 +98,7 @@ class ConnectedForm extends Component {
   constructor() {
     super();
 
+    /*
     this.state = {
       name: "",
       price: '',
@@ -109,6 +110,19 @@ class ConnectedForm extends Component {
       description: "",
       birthday: '',
       activeStep: 0,
+    }; */
+
+    this.state = {
+      name: "Knob Creek Single Barrel",
+      price: 65,
+      distillery: "Knob Creek",
+      shipping: "Shipping Included",
+      pictures: {},
+      knownBirth: true,
+      description: "13+ year singel barrel selected",
+      birthday:  "2017-07-07",
+      age:  9,
+      activeStep: 2,
     };
 
 
@@ -124,7 +138,7 @@ class ConnectedForm extends Component {
   }
 
   bottleInfoForm(){
-    const { name, price, distillery, email, multiBottle, shipping, activeStep, description } = this.state;
+    const { name, price, distillery, email, multiBottle, shipping, activeStep, description, age } = this.state;
     const classes = this.props;
     return (
       <form>
@@ -217,9 +231,11 @@ class ConnectedForm extends Component {
               <Grid item sm={4} xs={12}>
                 <TextField
                   fullWidth
+                  name="age"
                   id="age"
                   label="Age (on label)"
                   type="number"
+                  value={age}
                   className={classes.textField}
                   InputLabelProps={{
                     shrink: true,
@@ -240,10 +256,45 @@ class ConnectedForm extends Component {
       case 1:
         return this.imageSelection(); 
       case 2:
-        return <div>step 2</div>;
+        return this.listingPreview();;
       default:
         throw new Error('Unknown step');
     }
+  }
+
+  listingPreview(){
+    const { name, price, distillery, shipping, pictures, knownBirth, description, birthday, age } = this.state;
+    return (
+      <React.Fragment>
+        <ul>
+          <li>
+            <em>name</em>: {name}
+          </li>
+          <li>
+            <em>price</em>: {price}
+          </li>
+          <li>
+            <em>distillery</em>: {distillery}
+          </li>
+          <li>
+            <em>shipping</em>: {shipping}
+          </li>
+          <li>
+            <em>Known Birthdate?</em> {(knownBirth) ? "yes" : "no"}
+          </li>
+          { birthday !== ""  && knownBirth && <li>
+            <em>Birthday</em>: {birthday}
+          </li> }
+          <li>
+            <em>Age</em>: {age}
+          </li>
+          <li>
+            <em>Description</em>: {description}
+          </li>
+        </ul>
+      </React.Fragment>
+    )
+
   }
 
   imageSelection(){
@@ -293,12 +344,15 @@ class ConnectedForm extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const { name, price, distillery, images } = this.state;
+    const { name, price, distillery, images, age, birthday, description, shipping } = this.state;
     const id = uuidv1();
+    
+    const utcBirthday = new Date(birthday);
+
 
     const parsedPrice = parseFloat(price)
     this.props.addListing({ name, id, price:parsedPrice, distillery });
-    this.props.addListingAsync({name, price: parsedPrice, distillery, images: images.map(i=>i.b64)})
+    this.props.addListingAsync({name, price: parsedPrice, distillery, images: images.map(i=>i.b64), age, birthday, description, shipping})
     localStorage.setItem("market4store", JSON.stringify(store.getState()));
     console.log("Syncing:", store.getState());
   }

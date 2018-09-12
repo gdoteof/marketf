@@ -140,7 +140,7 @@ class ImagePreview extends Component {
           </Grid>
         </Grid>
       </div>
-      <GridList cellHeight={280} className={classes.gridList} cols={3}>
+      <GridList cellHeight={400} className={classes.gridList} cols={3}>
         {images.map((image, index) => (
                     <GridListTile key={image.name} cols={image.cols || 1}>
 
