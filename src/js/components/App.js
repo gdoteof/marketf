@@ -53,42 +53,42 @@ const drawerWidth = 240;
 
 import { connect } from "react-redux";
 const styles = theme => ({
-    appFrame: {
-          height: '100%',
-          zIndex: 1,
-          overflow: 'hidden',
-          position: 'relative',
-          display: 'flex',
-          width: '100%',
-        },
-    appBar: {
-          width: `calc(100% - ${drawerWidth}px)`,
-        },
-    'appBar-left': {
-          marginLeft: drawerWidth,
-        },
-    'appBar-right': {
-          marginRight: drawerWidth,
-        },
-    drawerPaper: {
-          position: 'relative',
-          width: drawerWidth,
-        },
-    toolbar: theme.mixins.toolbar,
-    flex: {
-      flex: 1,
-    },
-    menuButton: {
-      marginLeft: -12,
-      marginRight: 20,
-    },
-    content: {
-      flexGrow: 1,
-      backgroundColor: theme.palette.background.default,
-      padding: theme.spacing.unit * 3,
-      minWidth: 0, // So the Typography noWrap works
-      height: '100%',
-    },
+  appFrame: {
+    height: '100%',
+    zIndex: 1,
+    overflow: 'hidden',
+    position: 'relative',
+    display: 'flex',
+    width: '100%',
+  },
+  appBar: {
+    width: `calc(100% - ${drawerWidth}px)`,
+  },
+  'appBar-left': {
+    marginLeft: drawerWidth,
+  },
+  'appBar-right': {
+    marginRight: drawerWidth,
+  },
+  drawerPaper: {
+    position: 'relative',
+    width: drawerWidth,
+  },
+  toolbar: theme.mixins.toolbar,
+  flex: {
+    flex: 1,
+  },
+  menuButton: {
+    marginLeft: -12,
+    marginRight: 20,
+  },
+  content: {
+    flexGrow: 1,
+    backgroundColor: theme.palette.background.default,
+    padding: theme.spacing.unit * 3,
+    minWidth: 0, // So the Typography noWrap works
+    height: '100%',
+  },
 });
 
 
@@ -108,16 +108,15 @@ const mapStateToProps = state => {
 class App extends Component {
   constructor() {
     super();
-    
+
     const previousState = JSON.parse(localStorage.getItem('market4store')); 
-    console.log("constructing APP");
 
     if( previousState ) {
       store.dispatch({type: 'SYNC_STATE', payload: previousState})
     } 
-		this.state= {
-			anchorEl: null,
-		};
+    this.state= {
+      anchorEl: null,
+    };
     this.handleClose  = this.handleClose.bind(this);
     this.handleMenu   = this.handleMenu.bind(this);
   }
@@ -136,11 +135,11 @@ class App extends Component {
   };
 
   render() {
-   const { classes } = this.props;
-   const { anchorEl, user} = this.state;
-   const open = Boolean(anchorEl);
-   return (
-     <div>
+    const { classes } = this.props;
+    const { anchorEl, user} = this.state;
+    const open = Boolean(anchorEl);
+    return (
+      <div>
         <Router>
           <div className={classes.appFrame}>
             <AppBar position="absolute" className={classNames(classes.appBar, classes[`appBar-left`])}>
@@ -171,17 +170,17 @@ class App extends Component {
                   <MenuItem onClick={this.handleClose}>Profile</MenuItem>
                   <MenuItem onClick={this.handleClose}>My account</MenuItem>
                   {this.props.user.loggedIn ? 
-                    (
-                      <a href="/auth/logout">
-                        <MenuItem onClick={this.handleClose}>Logout</MenuItem>
-                      </a>
-                    )
-                    :
-                    (
-                      <a href="/auth/login">
-                        <MenuItem onClick={this.handleClose}>Login</MenuItem>
-                      </a>
-                    )
+                      (
+                        <a href="/auth/logout">
+                          <MenuItem onClick={this.handleClose}>Logout</MenuItem>
+                        </a>
+                      )
+                      :
+                      (
+                        <a href="/auth/login">
+                          <MenuItem onClick={this.handleClose}>Login</MenuItem>
+                        </a>
+                      )
                   }
                 </Menu>
               </Toolbar>
@@ -222,7 +221,7 @@ class App extends Component {
                       </ListItemIcon>
                       <ListItemText primary="Widget" />
                     </ListItem>
-                    </Link>
+                  </Link>
                 </div>
               </List>
             </Drawer>
@@ -236,9 +235,9 @@ class App extends Component {
               <Route path="/app/widget" component={ImagePreview} />
             </main>
           </div>
-         </Router>
-     </div>
-  );
+        </Router>
+      </div>
+    );
 
   }
 }

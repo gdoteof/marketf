@@ -3,10 +3,15 @@ import { connect } from "react-redux";
 
 import { withStyles } from '@material-ui/core/styles';
 
+import Paper from '@material-ui/core/Paper';
+import IconButton from '@material-ui/core/IconButton';
+import Grid from '@material-ui/core/Grid';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
+import GridListTileBar from '@material-ui/core/GridListTileBar';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
+import DeleteOutlineIcon from '@material-ui/icons/DeleteOutlined';
 import Icon from '@material-ui/core/Icon';
 
 import UploadIcon from '@material-ui/icons/AddAPhoto';
@@ -22,17 +27,28 @@ const styles = theme => ({
   },
   uploadIcon: {
     marginRight: theme.spacing.unit,
-  }
+  },
+  bigButtonArea: {
+    minHeight: '400px',
+  },
+  icon: {
+    color: 'white',
+  },
+  paper: {
+    padding: theme.spacing.unit * 2,
+    height: '100%',
+    color: theme.palette.text.secondary,
+  },
 })
 
 
 class ImagePreview extends Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state={
-      images: [],
+      images: this.props.images || [],
       selected: null
     }
 
@@ -62,12 +78,9 @@ class ImagePreview extends Component {
     const filtered = images.filter((image, index, self) =>
         index === self.findIndex((t) => ( t.name === image.name && t.size === image.size)))
 
-    console.log("There are ", filtered.length, "images in the array after filtering");
-
     //Create base64 representations where needed
     for (var i = 0; i < filtered.length; ++i){
       if( ! filtered[i].b64 ){
-        console.log("NOT SKIPPING");
         var reader = new FileReader();
         reader.readAsDataURL(filtered[i]);
         const outer = this;
@@ -79,7 +92,6 @@ class ImagePreview extends Component {
           console.log('Error: ', error);
         };
       }
-      console.log("DEFINITELY SKIPPING");
     }
 
     this.setState({ images : filtered });
@@ -107,40 +119,48 @@ class ImagePreview extends Component {
     const { images } = this.state;
     const { classes } = this.props;
     return (
+      <React.Fragment>
       <div>
-         <input
-            accept="image/*"
-            className={classes.input}
-            id="fab-button-file"
-            multiple
-            type="file"
-            onChange={this.handleFilePick}
-          />
-        <label htmlFor="fab-button-file">
-          <Button component="span" size="small" aria-label="Select" variant="extendedFab" className={classes.button}>
-            <UploadIcon className={classes.uploadIcon}/>
-            Select Images
-          </Button>
-        </label>
-        <div className={classes.root}>
-          <GridList cellHeight={280} className={classes.gridList} cols={3}>
-            {images.map((image, index) => (
-                        <GridListTile key={image.name} cols={image.cols || 1} 
-                        >
-                          <button type="button" className="close" aria-label="Close" 
-                            onClick={() => this.handleRemove(index)}
-                          >
-                            <span aria-hidden="true">&times;</span>
-                          </button>
-                          <img src={image.img} alt={image.name} />
-                        </GridListTile>
-                      ))}
-          </GridList>
-        </div>
-
-        
+        <Grid container direction="row" justify="center" alignItems="center" className={images.length ? classes.smallButtonArea : classes.bigButtonArea} spacing={24}>
+          <Grid item>
+           <input
+                accept="image/*"
+                className={classes.input}
+                id="fab-button-file"
+                multiple
+                type="file"
+                onChange={this.handleFilePick}
+              />
+            <label htmlFor="fab-button-file">
+              <Button component="span" size="small" aria-label="Select" variant="extendedFab" className={classes.button}>
+                <UploadIcon className={classes.uploadIcon}/>
+                {images.length ? "Add Images" : "Select Images"}
+              </Button>
+            </label>
+          </Grid>
+        </Grid>
       </div>
-    );
+      <GridList cellHeight={280} className={classes.gridList} cols={3}>
+        {images.map((image, index) => (
+                    <GridListTile key={image.name} cols={image.cols || 1}>
+
+                      <img src={image.img} alt={image.name} />
+                      <GridListTileBar
+                        titlePosition="bottom"
+                        actionIcon={
+                          <IconButton className={classes.icon} onClick={() => this.handleRemove(index)}>
+                            <DeleteOutlineIcon />
+                          </IconButton>
+                        }
+                        actionPosition="left"
+                        className={classes.titleBar}
+                      />
+				
+                    </GridListTile>
+                  ))}
+      </GridList>
+      </React.Fragment>
+    )
   }
 }
 

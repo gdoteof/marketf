@@ -37,58 +37,54 @@ import store from "../store/index";
 import { withStyles } from '@material-ui/core/styles';
 
 
-const steps = ['Bottle Info', 'Bottle Pictures', 'Review your order'];
+const steps = ['Bottle Info', 'Bottle Pictures', 'Review your listing'];
 
 
 const styles = theme => ({
-    layout: {
-          width: 'auto',
-          marginLeft: theme.spacing.unit * 2,
-          marginRight: theme.spacing.unit * 2,
-          [theme.breakpoints.up(600 + theme.spacing.unit * 2 * 2)]: {
-                  width: 600,
-                  marginLeft: 'auto',
-                  marginRight: 'auto',
-                },
-        },
-    paper: {
-          marginTop: theme.spacing.unit * 3,
-          marginBottom: theme.spacing.unit * 3,
-          padding: theme.spacing.unit * 2,
-          [theme.breakpoints.up(600 + theme.spacing.unit * 3 * 2)]: {
-                  marginTop: theme.spacing.unit * 6,
-                  marginBottom: theme.spacing.unit * 6,
-                  padding: theme.spacing.unit * 3,
-                },
-        },
-    stepper: {
-          padding: `${theme.spacing.unit * 3}px 0 ${theme.spacing.unit * 5}px`,
-        },
-    buttons: {
-          display: 'flex',
-          justifyContent: 'flex-end',
-        },
-    marker: {
-        border: "5px red solid"
-        },
-    button: {
-        marginTop: "10px",
-        marginTop: theme.spacing.unit * 3,
-        marginLeft: theme.spacing.unit,
-        },
-    root: {
-        display: 'flex',
-        flexWrap: 'wrap',
-      },
-    formControl: {
-          margin: theme.spacing.unit,
-          minWidth: "360px",
-        },
-    textField: {
-          marginLeft: theme.spacing.unit,
-          marginRight: theme.spacing.unit,
-          width: 200,
-        },
+  layout: {
+    width: 'auto',
+    marginLeft: theme.spacing.unit * 2,
+    marginRight: theme.spacing.unit * 2,
+    [theme.breakpoints.up(600 + theme.spacing.unit * 2 * 2)]: {
+      width: 600,
+      marginLeft: 'auto',
+      marginRight: 'auto',
+    },
+  },
+  paper: {
+    marginTop: theme.spacing.unit * 3,
+    marginBottom: theme.spacing.unit * 3,
+    padding: theme.spacing.unit * 2,
+    [theme.breakpoints.up(600 + theme.spacing.unit * 3 * 2)]: {
+      marginTop: theme.spacing.unit * 6,
+      marginBottom: theme.spacing.unit * 6,
+      padding: theme.spacing.unit * 3,
+    },
+  },
+  stepper: {
+    padding: `${theme.spacing.unit * 3}px 0 ${theme.spacing.unit * 5}px`,
+    width: '50%',
+  },
+  flexEnd: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+  },
+  buttons: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+  },
+  marker: {
+    border: "5px red solid"
+  },
+  button: {
+    marginTop: theme.spacing.unit * 3,
+    marginLeft: theme.spacing.unit,
+  },
+  textField: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    width: 200,
+  },
 });
 
 const mapDispatchToProps = dispatch => {
@@ -116,94 +112,95 @@ class ConnectedForm extends Component {
     };
 
 
-    this.handleChange = this.handleChange.bind(this);
-    this.handleCheckChange = this.handleCheckChange.bind(this);
-    this.handleChangeNumeric = this.handleChangeNumeric.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.onImagePreviewChange = this.onImagePreviewChange.bind(this);
-    this.imagesCallback = this.imagesCallback.bind(this);
-    this.handleNext = this.handleNext.bind(this);
-    this.handleBack = this.handleBack.bind(this);
-    this.handleReset = this.handleReset.bind(this);
+    this.handleChange          =  this.handleChange.bind(this);
+    this.handleCheckChange     =  this.handleCheckChange.bind(this);
+    this.handleChangeNumeric   =  this.handleChangeNumeric.bind(this);
+    this.handleSubmit          =  this.handleSubmit.bind(this);
+    this.onImagePreviewChange  =  this.onImagePreviewChange.bind(this);
+    this.imagesCallback        =  this.imagesCallback.bind(this);
+    this.handleNext            =  this.handleNext.bind(this);
+    this.handleBack            =  this.handleBack.bind(this);
+    this.handleReset           =  this.handleReset.bind(this);
   }
 
   bottleInfoForm(){
-    const { name, price, distillery, email, multiBottle, shipping, activeStep } = this.state;
+    const { name, price, distillery, email, multiBottle, shipping, activeStep, description } = this.state;
     const classes = this.props;
     return (
-      <form className={classes.root}>
-        <Button component="span" size="small" aria-label="Select" variant="contained" className={classes.button} onClick={this.handleSubmit}>
-          <AddIcon/>
-          Save this listing
-        </Button>
-        
-        <Grid container>
-          <Grid item sm={8} xs={12}>
-            <div className={classes.marker}>
-              <FormControl>
-                <TextField id="name" name="name"
-                  fullWidth
-                  label="name"
-                  value={name}
-                  onChange={this.handleChange}
-                 />
-                 <TextField
-                    id="description"
-                    multiline
-                    label="Description"
-                    type="text"
-                    value={this.state.description}
-                    rows={4}
-                 />
-                 <TextField id="price" name="price"
-                   label="price"
-                   value={price}
-                   InputProps={{
-                         startAdornment: <InputAdornment position="start">$</InputAdornment>,
-                   }}
-                   onChange={this.handleChange}
-                  />
-                 <TextField id="distillery" name="distillery"
-                   label="distillery"
-                   value={distillery}
-                   onChange={this.handleChange}
-                  />
-                </FormControl>
-            </div>
-            <FormControl className={classes.formControl}>
-              <InputLabel htmlFor="shipping">Shipping</InputLabel>
-              <Select id="shipping"
-                value={shipping}
+      <form>
+        <Grid container spacing={24} justify="space-evenly">
+          <Grid container item sm={8} xs={12} justify="space-evenly" spacing={24}>
+            <Grid item sm={12} xs={12}>
+              <TextField id="name" name="name"
+                fullWidth
+                label="name"
+                value={name}
                 onChange={this.handleChange}
-                name="shipping"
-              >
-                <MenuItem value={'Shipping Included'}>Shipping Included</MenuItem>
-                <MenuItem value={'Buyer Pays'}>Buyer Pays Shipping</MenuItem>
-                <MenuItem value={'Flat Rate'}>Flat Rate</MenuItem>
-              </Select>
-              <FormHelperText>Some important helper text</FormHelperText>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={this.state.multiBottle}
-                    onChange={this.handleChange}
-                    value={this.state.multiBottle}
-                  />
-                }
-                label="Multi-Bottle listing?"
               />
+            </Grid>
+          </Grid>
+          <Grid container item spacing={24} sm={8} xs={12} justify="space-evenly">
+            <Grid item sm={12} xs={12}>
+              <TextField
+                id="description"
+                name="description"
+                fullWidth
+                multiline
+                label="Description"
+                type="text"
+                value={description}
+                onChange={this.handleChange}
+              />
+            </Grid>
+          </Grid>
+          <Grid container item spacing={24} sm={8} xs={12} justify="flex-start">
+            <Grid item sm={4} xs={6}>
+              <TextField id="price" name="price"
+                fullWidth
+                label="price"
+                value={price}
+                InputProps={{
+                  startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                }}
+                onChange={this.handleChange}
+              />
+            </Grid>
+            <Grid item sm={8} xs={8}>
+              <TextField id="distillery" name="distillery"
+                fullWidth
+                label="distillery"
+                value={distillery}
+                onChange={this.handleChange}
+              />
+            </Grid>
+            <Grid container item spacing={24} sm={8} xs={12} justify="flex-start">
+              <Grid item sm={4} xs={12}>
+                <InputLabel htmlFor="shipping">Shipping</InputLabel>
+                <Select id="shipping"
+                  value={shipping}
+                  onChange={this.handleChange}
+                  name="shipping"
+                  fullWidth
+                >
+                  <MenuItem value={'Shipping Included'}>Shipping Included</MenuItem>
+                  <MenuItem value={'Buyer Pays'}>Buyer Pays Shipping</MenuItem>
+                  <MenuItem value={'Flat Rate'}>Flat Rate</MenuItem>
+                </Select>
+              </Grid>
+              <Grid item sm={4} xs={12}>
                 <FormControlLabel
-                        control={
-                          <Checkbox
-                            name="knownBirth"
-                            checked={this.state.knownBirth}
-                            onChange={this.handleCheckChange}
-                          />
-                        }
-                        label="Known Birthdate?"
-                      />
-              { this.state.knownBirth && 
+                  control={
+                    <Checkbox
+                      name="knownBirth"
+                      checked={this.state.knownBirth}
+                      onChange={this.handleCheckChange}
+                    />
+                  }
+                  label="Known Birthdate?"
+                />
+                { this.state.knownBirth && 
                 <TextField
+                  fullWidth
                   id="birthday"
                   name="birthday"
                   label="Birthday"
@@ -212,69 +209,77 @@ class ConnectedForm extends Component {
                   value={this.state.birthday}
                   className={classes.textField}
                   InputLabelProps={{
-                              shrink: true,
-                              }}
+                    shrink: true,
+                  }}
                 />
-              }
-              <TextField
-                id="age"
-                label="Age (on label)"
-                type="number"
-                className={classes.textField}
-                InputLabelProps={{
-                            shrink: true,
-                            }}
-              />
-
-          </FormControl>
+                }
+              </Grid>
+              <Grid item sm={4} xs={12}>
+                <TextField
+                  fullWidth
+                  id="age"
+                  label="Age (on label)"
+                  type="number"
+                  className={classes.textField}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+              </Grid>
+            </Grid>
           </Grid>
-        </Grid>
-      </form>
+      </Grid>
+    </form>
     )
   }
 
-	getStepContent(step) {
-		switch (step) {
-						case 0:
-							return this.bottleInfoForm();
-						case 1:
-							return <div>step 1</div>;
-						case 2:
-							return <div>step 2</div>;
-						default:
-							throw new Error('Unknown step');
-					}
-	}
+  getStepContent(step) {
+    switch (step) {
+      case 0:
+        return this.bottleInfoForm();
+      case 1:
+        return this.imageSelection(); 
+      case 2:
+        return <div>step 2</div>;
+      default:
+        throw new Error('Unknown step');
+    }
+  }
 
-	handleNext() {
-		const { activeStep } = this.state;
-		this.setState({
-			activeStep: activeStep + 1,
-		});
-	};
+  imageSelection(){
+    const { images } = this.state;
+    return (
+      <React.Fragment>
+        <ImagePreview callback={this.imagesCallback} images={images}/>;
+      </React.Fragment>
+    )
+  }
 
-	handleBack(){
-		const { activeStep } = this.state;
-		this.setState({
-			activeStep: activeStep - 1,
-		});
-	};
+  handleNext() {
+    const { activeStep } = this.state;
+    this.setState({
+      activeStep: activeStep + 1,
+    });
+  };
 
-	handleReset(){
-		this.setState({
-			activeStep: 0,
-		});
-	};
+  handleBack(){
+    const { activeStep } = this.state;
+    this.setState({
+      activeStep: activeStep - 1,
+    });
+  };
+
+  handleReset(){
+    this.setState({
+      activeStep: 0,
+    });
+  };
 
   handleChange(event) {
-    console.log("received change", event.target.id, ":", event.target.value);
-    console.log(event.target);
     this.setState({ [event.target.name]: event.target.value });
   }
 
   handleCheckChange(event) {
-    console.log("received change", event.target.id, ":", event.target.checked);
-    console.log(event.target);
     this.setState({ [event.target.name]: event.target.checked });
   }
 
@@ -283,7 +288,7 @@ class ConnectedForm extends Component {
   }
 
   onImagePreviewChange(pictures){
-      this.setState({pictures})
+    this.setState({pictures})
   }
 
   handleSubmit(event) {
@@ -294,7 +299,6 @@ class ConnectedForm extends Component {
     const parsedPrice = parseFloat(price)
     this.props.addListing({ name, id, price:parsedPrice, distillery });
     this.props.addListingAsync({name, price: parsedPrice, distillery, images: images.map(i=>i.b64)})
-    this.setState({ name: "" , price: 0, distillery: ""});
     localStorage.setItem("market4store", JSON.stringify(store.getState()));
     console.log("Syncing:", store.getState());
   }
@@ -309,56 +313,58 @@ class ConnectedForm extends Component {
     const { name, price, distillery, email, multiBottle, shipping, activeStep } = this.state;
     const classes = this.props;
     return (
-		<div>
       <React.Fragment>
         <CssBaseline />
         <main className={classes.layout}>
           <Paper className={classes.paper}>
-            <Stepper activeStep={activeStep} className={classes.stepper}>
+            <Stepper activeStep={activeStep} className={classes.stepper} alternativeLabel>
               {steps.map(label => (
-                                <Step key={label}>
-                                  <StepLabel>{label}</StepLabel>
-                                </Step>
-                              ))}
+                <Step key={label}>
+                  <StepLabel>{label}</StepLabel>
+                </Step>
+              ))}
             </Stepper>
             <React.Fragment>
               {activeStep === steps.length ? (
-                    <React.Fragment>
-                      <Typography variant="headline" gutterBottom>
-                        Thank you for your order.
-                      </Typography>
-                      <Typography variant="subheading">
-                        Your order number is #2001539. We have emailed your order confirmation, and will
-                        send you an update when your order has shipped.
-                      </Typography>
-                    </React.Fragment>
-                  ) : (
-                    <React.Fragment>
-                      {this.getStepContent(activeStep)}
-                      <div className={classes.buttons}>
-                        {activeStep !== 0 && (
-                            <Button onClick={this.handleBack} className={classes.button}>
-                              Back
-                            </Button>
-                        )}
-                            <Button
-                              variant="contained"
-                              color="primary"
-                              onClick={this.handleNext}
-                              className={classes.button}
-                            >
-                              {activeStep === steps.length - 1 ? 'Place order' : 'Next'}
-                            </Button>
-                      </div>
-                    </React.Fragment>
-                  )}
+                <React.Fragment>
+                  <Typography variant="headline" gutterBottom>
+                    Thank you for your order.
+                  </Typography>
+                  <Typography variant="subheading">
+                    Saving...
+                  </Typography>
+                </React.Fragment>
+              ) : (
+                <React.Fragment>
+                  {this.getStepContent(activeStep)}
+                  <div className={classes.flexEnd} style={{display: "flex", justifyContent: "flex-end"}}>
+                    {activeStep !== 0 && (
+                      <Button onClick={this.handleBack} style={{marginBottom: "10px"}}>
+                        Back
+                      </Button>
+                    )}
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={this.handleNext}
+                      className={classes.button}
+                      style={{marginBottom: "10px", marginRight:"20px"}}
+                    >
+                      {activeStep === steps.length - 1 ? 'Confirm' : 'Next'}
+                    </Button>
+                    {activeStep === 2 && (
+                      <Button component="span" size="small" aria-label="Select" variant="contained" className={classes.button} onClick={this.handleSubmit}>
+                        <AddIcon/>
+                        Save this listing
+                      </Button>
+                    ) }
+                  </div>
+                </React.Fragment>
+              )}
             </React.Fragment>
           </Paper>
         </main>
       </React.Fragment>
-
-      <ImagePreview callback={this.imagesCallback}/>
-		</div>
     );
   }
 }
@@ -368,15 +374,15 @@ const Form = withStyles(styles)(connect(null, mapDispatchToProps)(ConnectedForm)
 
 
 function _FormTitle ({ classes }) {return (
-                <Typography variant="title" color="inherit" className={classes.flex} noWrap>
-                  Add a new listing
-                </Typography>
+  <Typography variant="title" color="inherit" className={classes.flex} noWrap>
+    Add a new listing
+  </Typography>
 )};
 
 const titleStyles = {
-    flex: {
-          flex: 1
-        }
+  flex: {
+    flex: 1
+  }
 };
 
 const FormTitle = withStyles(titleStyles)(_FormTitle);
